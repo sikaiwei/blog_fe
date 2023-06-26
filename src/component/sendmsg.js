@@ -120,7 +120,7 @@ export default class Sendmsg extends React.Component {
                     - （1）优点：可以配置多个代理，灵活控制请求是否走代理（请求接口前缀增加/api1与否决定）  <br />
                     - （2）缺点：配置繁琐，前端请求资源时 <br />
                     <br />
-                    ###### hmg ee git
+                    ###### hmg ee git vs-push
                     </p>
                 </div>
                 </div>
