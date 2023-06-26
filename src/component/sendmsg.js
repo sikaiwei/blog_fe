@@ -37,6 +37,7 @@ export default class Sendmsg extends React.Component {
     constructor(props){
         super(props);
     // console.log( this.props.form.getFieldDecorator.initialValue)
+    //comment
     }
 
 
