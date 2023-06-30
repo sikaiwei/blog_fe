@@ -14,7 +14,7 @@ export default class UserService {
     @observable clientip = '0.0.0.0';
     @observable email = '';
     @observable robotid = 'https://oapi.dingtalk.com/robot/send?access_token=1b4880977bea364676fac94733a6d9cb2d9a111c3c6127324ffe82460f7e2741';
-    
+    @observable sendload = false;
     @observable msgmoden = "\
 ## **监控告警** \n\n\
 --- \n\
@@ -38,7 +38,6 @@ export default class UserService {
         //         obj.setState({'ret':parseInt(Math.random() * 100)}),
         //         console.log('then  +++++++++++')
         //     })
-
         axios.post('/api/user/login', {
             'email': email,
             'password': password
@@ -138,6 +137,7 @@ export default class UserService {
     }
     
     sendmsg(webhook, text) {
+        this.sendload = true;
         axios.post('/sendding/user/sendding', {
             'webhook': webhook,
             'text': text
@@ -147,6 +147,7 @@ export default class UserService {
                 console.log(response.data, "iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
                 console.log(response.status);
                 this.clientip = response.data.clientaddress;
+                this.sendload = false;
 
                 // store.set('token', response.data.token, (new Date()).getTime() + (8*3600*1000) );
                 // obj.setState({ ret: 1000 });

@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDom from 'react-dom';
 import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
 import { Button, Form, Input, Select, Icon, Collapse } from 'antd';
-import { Row, Col } from 'antd';
+import { Row, Col, Spin } from 'antd';
 
 import '../css/login.css';
 import { observer } from 'mobx-react';
@@ -39,7 +39,7 @@ export default class Sendmsg extends React.Component {
     // console.log( this.props.form.getFieldDecorator.initialValue)
     //comment
     }
-
+    state = { loading: false };
 
     handleChange(value, event) {
         // this.setstat(robotid=value.key);
@@ -55,8 +55,11 @@ export default class Sendmsg extends React.Component {
        console.log(event.target, 'target target target target target target');
        let fm = event.target;
        console.log(fm, fm[0].value,fm[3],this.props.service.robotid, this.props,'sendmsgsendmsgsendmsgsendmsgsendmsgsendmsg')
-
+    //    this.setState({ loading: true });
+        console.log(this.props.service.sendload);
        this.props.service.sendmsg(this.props.service.robotid, fm[0].value);
+       console.log(this.props.service.sendload);
+    //    this.setState({ loading: false });
     //    console.log(fm, fm[0].value, fm[1].value, 'sendmsgsendmsgsendmsgsendmsgsendmsgsendmsg')
    }
    
@@ -66,11 +69,13 @@ export default class Sendmsg extends React.Component {
         // console.log(getComputedStyle,"getFieldDecorator <======")
         return (
             <div>
-            <Form onSubmit={this.handleSendmsg.bind(this)} >
-                {/* <Form.Item label="webhook"  wrapperCol={{span:5}} labelCol={{span:1}} >
-                    <Input />
-                </Form.Item> */}
-                         <Form.Item label="选择钉钉机器人"  wrapperCol={{span:10}} labelCol={{span:3}} >
+                <Row type="flex" justify="space-between" align="bottom" >
+                <Col span={14} >
+                    <Form onSubmit={this.handleSendmsg.bind(this)} >
+                        {/* <Form.Item label="webhook"  wrapperCol={{span:5}} labelCol={{span:1}} >
+                            <Input />
+                        </Form.Item> */}
+                        <Form.Item label="选择钉钉机器人"  wrapperCol={{span:10}} labelCol={{span:3}} >
                             <Select
                                 labelInValue
                                 defaultValue={{ key: '监控 (100)' }}
@@ -80,21 +85,30 @@ export default class Sendmsg extends React.Component {
                             <Option value="https://oapi.dingtalk.com/robot/send?access_token=6c9e268d86c83a86a18cfd20a6d7c432f3bea0d50a290beac05a277aca2cc91c">tms (101)</Option>
                             </Select>
                         </Form.Item>
-                <Form.Item label="信息"  wrapperCol={{span:10}} labelCol={{span:1}} >
-                    <TextArea rows={10} defaultValue={this.props.service.msgmoden} />
-                </Form.Item>
-                <Form.Item  wrapperCol={{span:10, offset: 10}} >
-                <Button type="primary" htmlType="submit" >发送</Button>
-                </Form.Item>
+                        <Spin spinning={this.props.service.sendload} size="large" tip="Sendding...">
+                        <Form.Item label="信息"  wrapperCol={{span:20}} labelCol={{span:1}} >
+                            <TextArea rows={10} defaultValue={this.props.service.msgmoden} />
+                        </Form.Item>
+                        <Form.Item  wrapperCol={{span:10, offset: 10}} >
+                        <Button type="primary" htmlType="submit" >
+                        发送
+                        </Button>
+                        </Form.Item>
+                        </Spin>
 
-                <Form.Item  wrapperCol={{span:20, offset: 1}} >
-               
-                </Form.Item>
-            </Form>
+                        <Form.Item  wrapperCol={{span:20, offset: 1}} >
+                    
+                        </Form.Item>
+                    </Form>
+                </Col>
+
+            </Row>
+
  
             <div>
                 <Row type="flex" justify="space-between" align="bottom" >
                 <Col span={14} >
+
                     <Collapse>
                         <Panel header="消息模板 1" key="1">
                         <p>{this.props.service.msgmoden}</p>
@@ -106,6 +120,7 @@ export default class Sendmsg extends React.Component {
                         <p>{this.props.service.msgmoden}</p>
                         </Panel>
                     </Collapse>
+
                 </Col>
                 <Col span={9}>
                 <div>
